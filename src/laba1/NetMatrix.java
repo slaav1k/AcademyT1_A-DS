@@ -23,6 +23,8 @@ public class NetMatrix {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("\nNETWORK MATRIX\n");
+
         int size = _net.length;
 
         char[] labels = new char[size];
