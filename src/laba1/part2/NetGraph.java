@@ -1,4 +1,4 @@
-package laba1;
+package laba1.part2;
 
 import java.util.ArrayList;
 
@@ -22,14 +22,14 @@ public class NetGraph {
     }
 
     @Override
-public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("\nNETWORK GRAPH\n");
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\nNETWORK GRAPH\n");
 
-    for (Node node : _graph) {
-        sb.append(node);
-        sb.append("--------------------------------------------\n");
+        for (Node node : _graph) {
+            sb.append(node);
+            sb.append("--------------------------------------------\n");
+        }
+        return sb.toString();
     }
-    return sb.toString();
-}
 }

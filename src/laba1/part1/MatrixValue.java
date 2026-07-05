@@ -1,4 +1,4 @@
-package laba1;
+package laba1.part1;
 
 public class MatrixValue {
     private int _bandwidth;

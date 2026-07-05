@@ -1,4 +1,4 @@
-package laba1;
+package laba1.part2;
 
 public class NodeLink {
     private Node _target;

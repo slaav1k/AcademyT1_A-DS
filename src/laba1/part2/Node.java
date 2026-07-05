@@ -1,4 +1,4 @@
-package laba1;
+package laba1.part2;
 
 import java.util.ArrayList;
 
