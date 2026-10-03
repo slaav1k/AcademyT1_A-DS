@@ -46,4 +46,13 @@ class OrderServiceTest {
         double res = service.calc(items, "STANDARD");
         assertEquals(1150.0, res);
     }
+
+    @Test
+    @DisplayName("Проверка дополнительной скидки 1% при количестве товаров больше 10")
+    void testQuantityDiscountCalculation() {
+        OrderService service = new OrderService();
+        List<Item> items = List.of(new Item("Pen", 10.0, 11));
+        double res = service.calc(items, "STANDARD");
+        assertEquals(108.9, res, 0.001);
+    }
 }
