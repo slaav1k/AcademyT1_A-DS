@@ -2,9 +2,9 @@ package laba14.entity;
 
 public class Item {
 
-    private String name;
-    private double price;
-    private int quantity;
+    private final String name;
+    private final double price;
+    private final int quantity;
 
     public Item(String name, double price, int quantity) {
         this.name = name;

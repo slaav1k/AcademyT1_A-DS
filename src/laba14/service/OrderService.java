@@ -6,6 +6,11 @@ import java.util.List;
 
 public class OrderService {
 
+    private static final double VIP_DISCOUNT_MULTIPLIER = 0.9;
+    private static final double NEW_DISCOUNT_MULTIPLIER = 0.95;
+    private static final double THRESHOLD_AMOUNT = 1000.0;
+    private static final double THRESHOLD_DISCOUNT_VALUE = 50.0;
+
     /**
      * Рассчитывает общую стоимость товаров в заказе с учетом типа клиента и применимых скидок.
      *
@@ -14,23 +19,52 @@ public class OrderService {
      * @return итоговая стоимость заказа после применения скидок
      */
     public double calc(List<Item> items, String type) {
-        double s = 0;
-        for (Item i : items) {
-            s += i.getPrice() * i.getQuantity();
-        }
+        double subtotal = calculateSubtotal(items);
+        double discountedByClientType = applyClientDiscount(subtotal, type);
+        return applyThresholdDiscount(discountedByClientType);
+    }
 
-        if (type.equals("VIP")) {
-            s = s * 0.9;
+    /**
+     * Вычисляет промежуточную общую стоимость всех товаров без учета скидок.
+     *
+     * @param items список товаров в корзине
+     * @return сумма стоимости всех товаров
+     */
+    private double calculateSubtotal(List<Item> items) {
+        double sum = 0;
+        for (Item item : items) {
+            sum += item.getPrice() * item.getQuantity();
         }
+        return sum;
+    }
 
-        if (type.equals("NEW")) {
-            s = s * 0.95;
+    /**
+     * Применяет скидку в зависимости от типа клиента.
+     *
+     * @param amount текущая сумма заказа
+     * @param type   тип клиента ("VIP", "NEW" и др.)
+     * @return сумма заказа после клиентской скидки
+     */
+    private double applyClientDiscount(double amount, String type) {
+        if ("VIP".equals(type)) {
+            return amount * VIP_DISCOUNT_MULTIPLIER;
         }
-
-        if (s > 1000) {
-            s = s - 50;
+        if ("NEW".equals(type)) {
+            return amount * NEW_DISCOUNT_MULTIPLIER;
         }
+        return amount;
+    }
 
-        return s;
+    /**
+     * Применяет фиксированную пороговую скидку, если сумма превышает лимит.
+     *
+     * @param amount текущая сумма заказа
+     * @return сумма заказа с учетом пороговой скидки
+     */
+    private double applyThresholdDiscount(double amount) {
+        if (amount > THRESHOLD_AMOUNT) {
+            return amount - THRESHOLD_DISCOUNT_VALUE;
+        }
+        return amount;
     }
 }
