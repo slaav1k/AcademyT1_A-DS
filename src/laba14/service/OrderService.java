@@ -5,6 +5,14 @@ import laba14.entity.Item;
 import java.util.List;
 
 public class OrderService {
+
+    /**
+     * Рассчитывает общую стоимость товаров в заказе с учетом типа клиента и применимых скидок.
+     *
+     * @param items список товаров в корзине
+     * @param type  тип клиента (например, "VIP", "NEW" и др.)
+     * @return итоговая стоимость заказа после применения скидок
+     */
     public double calc(List<Item> items, String type) {
         double s = 0;
         for (Item i : items) {
