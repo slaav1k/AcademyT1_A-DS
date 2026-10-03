@@ -10,6 +10,8 @@ public class OrderService {
     private static final double NEW_DISCOUNT_MULTIPLIER = 0.95;
     private static final double THRESHOLD_AMOUNT = 1000.0;
     private static final double THRESHOLD_DISCOUNT_VALUE = 50.0;
+    private static final int ITEM_COUNT_THRESHOLD = 10;
+    private static final double QUANTITY_DISCOUNT_MULTIPLIER = 0.99;
 
     /**
      * Рассчитывает общую стоимость товаров в заказе с учетом типа клиента и применимых скидок.
@@ -21,7 +23,27 @@ public class OrderService {
     public double calc(List<Item> items, String type) {
         double subtotal = calculateSubtotal(items);
         double discountedByClientType = applyClientDiscount(subtotal, type);
-        return applyThresholdDiscount(discountedByClientType);
+        double discountedByQuantity = applyQuantityDiscount(items, discountedByClientType);
+        return applyThresholdDiscount(discountedByQuantity);
+    }
+
+    /**
+     * Применяет дополнительную скидку 1%, если общее количество товаров больше порогового значения.
+     *
+     * @param items  список товаров в корзине
+     * @param amount текущая сумма заказа
+     * @return сумма заказа после учета количества товаров
+     */
+    private double applyQuantityDiscount(List<Item> items, double amount) {
+        int totalQuantity = 0;
+        for (Item item : items) {
+            totalQuantity += item.getQuantity();
+        }
+
+        if (totalQuantity > ITEM_COUNT_THRESHOLD) {
+            return amount * QUANTITY_DISCOUNT_MULTIPLIER;
+        }
+        return amount;
     }
 
     /**
